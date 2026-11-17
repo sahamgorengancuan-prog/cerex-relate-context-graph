@@ -1,0 +1,171 @@
+{
+  "status": "READ_ONLY_PREFLIGHT_NOT_EXECUTION",
+  "database": "Relate 1.0.1 embedded property graph",
+  "relate_version": "1.0.1",
+  "data_provenance": "Synthetic contest fixture only",
+  "verified_query_count": 6,
+  "graph_sha256": "94f665172e3e861f5800e2e0bd9407b7a872c691a4e8edb85b2fc0b64b9fe763",
+  "device": {
+    "id": "judge-demo-laptop",
+    "name": "Judge Demo Laptop (synthetic)",
+    "policy": {
+      "allow_tools": [
+        "csv_read",
+        "python"
+      ],
+      "network_allowed": false
+    }
+  },
+  "tasks": [
+    {
+      "id": "T-01",
+      "title": "Read synthetic sales CSV",
+      "status": "PERMITTED",
+      "reasons": [
+        "Capability allowed, human approval present, predecessors approved"
+      ],
+      "requested_tool": "csv_read",
+      "deps": [],
+      "expected_result": "sample_hash",
+      "predicted_only": true
+    },
+    {
+      "id": "T-02",
+      "title": "Validate and summarize rows",
+      "status": "PERMITTED",
+      "reasons": [
+        "Capability allowed, human approval present, predecessors approved"
+      ],
+      "requested_tool": "python",
+      "deps": [
+        "T-01"
+      ],
+      "expected_result": "issues.json",
+      "predicted_only": true
+    },
+    {
+      "id": "T-03",
+      "title": "Generate local report",
+      "status": "PERMITTED",
+      "reasons": [
+        "Capability allowed, human approval present, predecessors approved"
+      ],
+      "requested_tool": "python",
+      "deps": [
+        "T-02"
+      ],
+      "expected_result": "report.csv",
+      "predicted_only": true
+    },
+    {
+      "id": "T-04",
+      "title": "Email private dataset to public inbox",
+      "status": "DENIED",
+      "reasons": [
+        "Capability network_send is absent from device owner allowlist",
+        "No positive human authorization in the Relate approval record",
+        "Device policy forbids network transfers"
+      ],
+      "requested_tool": "network_send",
+      "deps": [
+        "T-03"
+      ],
+      "expected_result": "not authorized",
+      "predicted_only": true
+    },
+    {
+      "id": "T-05",
+      "title": "Run unrestricted shell cleanup",
+      "status": "DENIED",
+      "reasons": [
+        "Capability shell is absent from device owner allowlist",
+        "No positive human authorization in the Relate approval record"
+      ],
+      "requested_tool": "shell",
+      "deps": [
+        "T-03"
+      ],
+      "expected_result": "not authorized",
+      "predicted_only": true
+    },
+    {
+      "id": "T-06",
+      "title": "Publish summary before validation",
+      "status": "DENIED",
+      "reasons": [
+        "Missing predecessor referenced: T-99"
+      ],
+      "requested_tool": "python",
+      "deps": [],
+      "expected_result": "must fail due missing dependency",
+      "predicted_only": true
+    },
+    {
+      "id": "T-07",
+      "title": "Reconcile independent notes",
+      "status": "PERMITTED",
+      "reasons": [
+        "Capability allowed, human approval present, predecessors approved"
+      ],
+      "requested_tool": "python",
+      "deps": [
+        "T-01"
+      ],
+      "expected_result": "notes.json",
+      "predicted_only": true
+    },
+    {
+      "id": "T-08",
+      "title": "Finalize after denied network task",
+      "status": "DENIED",
+      "reasons": [
+        "Dependency T-04 is denied"
+      ],
+      "requested_tool": "python",
+      "deps": [
+        "T-04"
+      ],
+      "expected_result": "must fail due blocked dependency",
+      "predicted_only": true
+    }
+  ],
+  "edges": [
+    {
+      "task": "T-02",
+      "depends_on": "T-01"
+    },
+    {
+      "task": "T-03",
+      "depends_on": "T-02"
+    },
+    {
+      "task": "T-04",
+      "depends_on": "T-03"
+    },
+    {
+      "task": "T-05",
+      "depends_on": "T-03"
+    },
+    {
+      "task": "T-07",
+      "depends_on": "T-01"
+    },
+    {
+      "task": "T-08",
+      "depends_on": "T-04"
+    }
+  ],
+  "counts": {
+    "tasks": 8,
+    "permitted": 4,
+    "denied": 4,
+    "dependency_edges": 6,
+    "missing_references": 1
+  },
+  "limitations": [
+    "This service NEVER connects to or controls an actual laptop",
+    "It queries a real persistent Relate graph but plans only",
+    "Every device/task/receipt in the graph is synthetic",
+    "Full CereX remote execution needs separately verified owner opt-in"
+  ]
+}

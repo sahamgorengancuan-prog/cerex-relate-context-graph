@@ -1,0 +1,112 @@
+{
+  "dataset": "synthetic-v1",
+  "device": {
+    "id": "judge-demo-laptop",
+    "name": "Judge Demo Laptop (synthetic)",
+    "owner": "Demo Owner",
+    "allowed_tools": "python,csv_read",
+    "network_allowed": false
+  },
+  "capabilities": [
+    {
+      "id": "csv_read",
+      "label": "Read only a selected sample CSV",
+      "sensitivity": "low"
+    },
+    {
+      "id": "python",
+      "label": "Run constrained local Python",
+      "sensitivity": "medium"
+    },
+    {
+      "id": "network_send",
+      "label": "Transfer data over a network",
+      "sensitivity": "high"
+    },
+    {
+      "id": "shell",
+      "label": "Execute unrestricted shell",
+      "sensitivity": "critical"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-01",
+      "title": "Read synthetic sales CSV",
+      "requires": "csv_read",
+      "depends": [],
+      "approval": true,
+      "expected_result": "sample_hash"
+    },
+    {
+      "id": "T-02",
+      "title": "Validate and summarize rows",
+      "requires": "python",
+      "depends": [
+        "T-01"
+      ],
+      "approval": true,
+      "expected_result": "issues.json"
+    },
+    {
+      "id": "T-03",
+      "title": "Generate local report",
+      "requires": "python",
+      "depends": [
+        "T-02"
+      ],
+      "approval": true,
+      "expected_result": "report.csv"
+    },
+    {
+      "id": "T-04",
+      "title": "Email private dataset to public inbox",
+      "requires": "network_send",
+      "depends": [
+        "T-03"
+      ],
+      "approval": false,
+      "expected_result": "not authorized"
+    },
+    {
+      "id": "T-05",
+      "title": "Run unrestricted shell cleanup",
+      "requires": "shell",
+      "depends": [
+        "T-03"
+      ],
+      "approval": false,
+      "expected_result": "not authorized"
+    },
+    {
+      "id": "T-06",
+      "title": "Publish summary before validation",
+      "requires": "python",
+      "depends": [
+        "T-99"
+      ],
+      "approval": true,
+      "expected_result": "must fail due missing dependency"
+    },
+    {
+      "id": "T-07",
+      "title": "Reconcile independent notes",
+      "requires": "python",
+      "depends": [
+        "T-01"
+      ],
+      "approval": true,
+      "expected_result": "notes.json"
+    },
+    {
+      "id": "T-08",
+      "title": "Finalize after denied network task",
+      "requires": "python",
+      "depends": [
+        "T-04"
+      ],
+      "approval": true,
+      "expected_result": "must fail due blocked dependency"
+    }
+  ]
+}

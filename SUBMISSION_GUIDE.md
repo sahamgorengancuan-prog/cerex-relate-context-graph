@@ -4,8 +4,8 @@
 This repository includes **only** the new Relate local-context-graph preflight adapter and synthetic examples, written during the Nov 11–Dec 11, 2026 contest period. The original CereX local PC agent is pre-existing and is **not** included in this release or advertised as newly built.
 
 ## Required GitHub publication
-1. Create **new public** repository `cerex-relate-context-graph` under your GitHub account.
-2. Push exactly these prepared source files, including the persistent `judge-graph.rl` and automated tests.
+1. Repository already created at https://github.com/sahamgorengancuan-prog/cerex-relate-context-graph but currently **PRIVATE**. Go to Settings → General → Danger Zone → Change repository visibility → Make public. Do this before official submission.
+2. All 16 prepared files, including `judge-graph.rl` and automated tests, are already committed to `main` and have been verified by readback.
 3. Open GitHub repo About -> Topics; add mandatory `relate`, optionally `relate-neo4j-hackathon`.
 4. Verify public anonymous access, runnable clone, and Actions tests pass.
 5. Submit official Devpost form only after a real draft is created and all fields are checked.
@@ -37,4 +37,4 @@ Built with: Python 3.10, Relate DB 1.0.1, JavaScript UI, synthetic fixtures, det
 
 Caveat: Prototype is a graph authorization *preflight*, not a demonstrated live connection to a real PC. The linked interactive demo runs real Relate server queries against a synthetic store.
 
-Links: https://cerex.site/judge/relate-live/ ; public GitHub repo URL (insert only after created), optional video URL (insert only after published).
+Links: https://cerex.site/judge/relate-live/ ; https://github.com/sahamgorengancuan-prog/cerex-relate-context-graph (valid for judges only after visibility is set to Public), optional video URL (insert only after published).
